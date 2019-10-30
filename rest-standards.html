@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>REST Standards</title>
+		<link rel="shortcut icon" href="bed.ico"/>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="custom.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>RESTful API Standards</h2>
+					<a href="https://cyearsley.github.io/rest-api-standards-presentation/">Back Home</a>
+				</section>
+				<section>
+					<section>
+						<h2>First, a couple of definitions</h2>
+						<img src="https://media.giphy.com/media/3oeSB0xLHrumK34lbO/giphy.gif" />
+					</section>
+					<section>
+						<h3>Idempotent:</h3>
+						<p>
+							Methods can also have the property of "idempotence" in that (aside from error or expiration issues) the side-effects of N > 0 identical requests is 
+							the same as for a single request. The methods GET, HEAD, PUT and DELETE share this property.
+						</p>
+					</section>
+					<section>
+						<h3>Safe Methods:</h3>
+						<p>
+							Request methods are considered "safe" if their defined semantics are essentially read-only; i.e.,
+							the client does not request, and does not expect, any state change on the origin server as a result of applying a safe method to a target resource.
+						</p>
+						<p>
+							In other words, safe methods are READ ONLY. They have no side effects.
+						</p>
+					</section>
+					<section>
+						<h3>Table of Idempotent/Safe HTTP Methods</h3>
+						<table>
+							<tr>
+								<th><b>Method</b></th>
+								<th>Safe</th>
+								<th>Idempotent</th>
+								<th>Reference</th>
+								<th>Cachable</th>
+							</tr>
+							<tr>
+								<td><b>GET</b></td>
+								<td>Yes</td>
+								<td>Yes</td>
+								<td><a href="https://tools.ietf.org/html/rfc7231#section-4.3.1">4.3.1</a></td>
+								<td>Yes</td>
+							</tr>
+							<tr>
+								<td><b>PUT</b></td>
+								<td>No</td>
+								<td>Yes</td>
+								<td><a href="https://tools.ietf.org/html/rfc7231#section-4.3.4">4.3.4</a></td>
+								<td>No</td>
+							</tr>
+							<tr>
+								<td><b>POST</b></td>
+								<td>No</td>
+								<td>No</td>
+								<td><a href="https://tools.ietf.org/html/rfc7231#section-4.3.3">4.3.3</a></td>
+								<td>Yes</td>
+							</tr>
+							<tr>
+								<td><b>DELETE</b></td>
+								<td>No</td>
+								<td>Yes</td>
+								<td><a href="https://tools.ietf.org/html/rfc7231#section-4.3.5">4.3.5</a></td>
+								<td>No</td>
+							</tr>
+							<tr>
+								<td><b>PATCH</b></td> 
+								<td>No</td>
+								<td>Yes</td>
+								<td></td>
+								<td>Yes</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h3>Side Note:</h3>
+						<p>
+							If a method is identified as idempotent, it can be expected to be so. If a method is not identified as 
+							idempotent it cannot be expected to be so, however, nothing is preventing it from actually being idempotent.
+						</p>
+					</section>
+				</section>
+				<section data-background="#9e3d3d">
+					<h3>Heads up:</h3>
+					<p>This presentation is a TLDR; of a far more comprehensive standards document, which can be found <a href="https://github.com/cyearsley/restful-api-standards/blob/master/Proposed%20RESTful%20API%20Standards.md">HERE</a></p>
+				</section>
+				<section data-background="#3d869e">
+					<section>
+						<h3>Do's</h3>
+						<p>You are encouraged to do these 😁</p>
+						<img src="https://media.giphy.com/media/yJFeycRK2DB4c/giphy.gif" />
+					</section>
+					<section>
+						Do use HTTP GET method to request a representation of some resource. GETs should only be used to retreive data
+					</section>
+					<section>
+						Do use HTTP POST method to submit an entity to the specified resource. Often will change the state on the server
+					</section>
+					<section>
+						Do use HTTP PUT to replace all current representations of the target resource
+					</section>
+					<section>
+						Do use HTTP DELETE to delete the specified resource (or inactivate)
+					</section>
+					<section>
+						Do use HTTP PATCH to apply a partial modification to some resource
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Do use query parameters to filter result sets
+	
+							```asdfasdf
+							GET: api/v2/users?active=true
+							```
+
+							Where `?active=true` is the query parameter
+						</script>
+					</section>
+					<section>
+						Do use <code>kebab-case</code> in the URI path of an endpoint
+					</section>
+					<section>
+						Do use nouns for resources in the URI path
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Do order resources in a URI path hierarchically
+	
+							```asdfasdf
+							api/v1/users/{id} → a user
+							api/v1/users/{id}/accounts → accounts for some user
+							api/v1/forum-threads/{id} → a form thread
+							api/v1/forum-threads/{id}/comments → comments from some form thread
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Do use a route prefix in controllers
+	
+							```c#
+							[RoutePrefix("api/web-user")] // [Route] in .NET Core
+							public class WebUserController : ApiController
+							{
+								[HttpGet]
+								[Route("{id}/accounts")] // "api/web-user/{id}/accounts"
+								public IHttpActionResult GetAccount(int id)
+								{
+									// Do stuff...
+								}
+
+								// ...
+							}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Do denote resource collections by being plural (Need to discuss)
+	
+							```asdfasdf
+							api/v3/users → all users
+							api/v3/users/{id} → a specific user from the collection of users
+							api/v3/users/{id}/accounts → all accounts for the specified user
+							```
+						</script>
+					</section>
+					<section>
+						Do denote single resource records by being singular
+					</section>
+					<section>
+						<p>Do [only if needed] use a verb at the end of the URI path if the HTTP methods are insufficient</p>
+						<div>
+							Example: <code>api/v5/users/{userId}/cart/checkout</code>
+						</div>
+					</section>
+				</section>
+				<section data-background="#9e3d3d">
+					<section>
+						<h3>Do Not's</h3>
+						<p>You should avoid doing this stuff </p>
+						<img src="http://giphygifs.s3.amazonaws.com/media/koUtwnvA3TY7C/giphy.gif" />
+					</section>
+					<section>
+						Do not use idempotent (e.g. GET, PUT, DELETE) methods where the effect on the server is inconsistent with other such requests (non-idempotent)
+					</section>
+					<section>
+						Do not use <code>PascalCase</code> or <code>snake_case</code> in URI paths
+					</section>
+					<section>
+						Do not use UPPER CASE characters in URI paths
+					</section>
+					<section>
+						Do not use trailing slashes (/) in URI paths
+					</section>
+					<section>
+						<p>Do not use CRUD function names in URI paths</p>
+						<ul>
+							<li>create</li>
+							<li>read</li>
+							<li>get</li>
+							<li>update</li>
+							<li>delete</li>
+							<li>remove</li>
+							<li>etc...</li>
+						</ul>
+					</section>
+					<section>
+						Do not use query parameters to alter the functionality of a request method
+					</section>
+				</section>
+				<section>
+					<h3>Questions?</h3>
+				</section>
+				<section>
+					<h3>That's a Wrap!</h3>
+					<div>
+						Standards Document: <a href="https://cyearsley.github.io/rest-api-standards-presentation/">https://cyearsley.github.io/rest-api-standards-presentation/</a>
+					</div>
+					<br />
+					<div>
+						Presentation URL: <a href="https://cyearsley.github.io/rest-api-standards-presentation/">https://cyearsley.github.io/rest-api-standards-presentation/</a>
+					</div>
+					<br />
+					<div>
+						Presentation Code: <a href="https://github.com/cyearsley/rest-api-standards-presentation">https://github.com/cyearsley/rest-api-standards-presentation</a>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
