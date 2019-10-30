@@ -31,6 +31,725 @@
 					<h2>C# Standards</h2>
 					<a href="https://cyearsley.github.io/rest-api-standards-presentation/">Back Home</a>
 				</section>
+				<section data-background="#3d869e">
+					<section>
+						<h3>Do's</h3>
+						<p>Just Do It</p>
+						<img src="https://media.giphy.com/media/104ueR8J1OPM2s/giphy.gif" />
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Do use Pascal Case when naming classes and interfaces
+
+							```c#
+							public class MyClass { /* ... */ }
+
+							public interface IServiceProvider { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use Pascal Case when naming class members
+
+							```c#
+							public static void Main(string[] args)
+							public string MyString { get; set; }
+							private string MyString { get; set; }
+							private string MyString;
+							```
+
+							Exception: Backing Members
+							```c#
+							private string _MyString;
+							public string MyString
+							{
+								get
+								{
+									return _MyString;
+								}
+								set
+								{
+									_MyString = value;
+								}
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use Pascal Case when naming namespaces
+
+							```c#
+							namespace Project.Services.Forms
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use acronyms with three (3) or more characters in length as words and the appropriate casing
+
+							```c#
+							// Correct
+							public class XmlDocument { /* ... */ }
+							public string XmlString { get; }
+							string xmlString = "";
+
+							// Not Correct
+							public class XMLDocument { /* ... */ }
+							public string XMLString { get; }
+							string xMLString = "";
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use Upper Case when using an acronym two (2) characters in length
+
+							```c#
+							// Correct
+							public class UIControl { /* ... */ }
+
+							// Not Correct
+							public class UiControl { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do name classes such that they are the same name as their containing file
+
+							```c#
+							// Correct
+							// Filename: SystemService.cs
+							public class SystemService { /* ... */ }
+
+							// Not Correct
+							// Filename: Classes.cs
+							public class SystemService { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use Camel Case when naming local variables and method parameters
+
+							```c#
+							string myString = "";
+							```
+
+							```c#
+							public void HandleString(string myString) { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do prefix interface names with the uppercase letter 'I'
+
+							```c#
+							public interface IService { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do name interfaces using nouns or adjectives
+
+							```c#
+							public interface IShape { /* ... */ }
+
+							public interface IGroupable { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do suffix attribute class names with the 'Attribute' identifier
+
+							```c#
+							public class MyAttribute : Attribute { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use meaningful names as identifiers
+
+							```c#
+							// Correct
+							IEnumerable<Customer> seattleCustomers =customers
+								.Where(customer => customer.City == "Seattle");
+							```
+
+							```c#
+							// Not Correct
+							IEnumerable<Customer> someCustomers = customers
+								.Where(customer => customer.City == "Seattle");
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use singular nouns for enumeration names
+
+							```c#
+							public enum Item
+							{
+								One,
+								Two
+							}
+							```
+
+							Exception: When creating an enumeration for use as a flag, use a plural noun for the enumeration name.
+							```c#
+							[Flags]
+							public enum ColorHues
+							{
+								None = 0,
+								Black = 1,
+								Red = 2,
+								Green = 4,
+								Blue = 8
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do prefix all generic type arguments with the letter 'T'
+
+							```c#
+							public class MyClass<TArgument, TResult> { /* ... */ }
+
+							public void DoStuff<TArgument, TResult>() { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do name namespaces using the project name followed by the folders containing the source files
+
+							```c#
+							// Path: Project/Services/Forms
+
+							namespace Project.Services.Forms
+							```
+
+							Exception: When desiring additional organization on the filesystem but not when coding, namespaces may stop short of the full path.
+							```c#
+							// Path: Project/Services/Forms
+							// Path: Project/Services/Actions
+							// Path: Project/Services/Data
+
+							namespace Project.Services
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do always use curly braces ('{}') when creating a scoped block. No single line blocks without curly braces
+
+							```c#
+							// Correct
+							if (true)
+							{
+								// Process condition check result
+							}
+
+							// Not Correct
+							if (true)
+								// Process condition check result
+							```
+
+							```c#
+							using (IResource resource = new Resource())
+							{
+								// Use resource
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do declare class properties and fields at the top of the class
+
+							```c#
+							public class MyClass
+							{
+								public string MyString { get; set; }
+								public string MyOtherString { get; set; }
+
+								private string OtherValue;
+
+								public MyClass() { /* ... */ }
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do provide comments for lines and processes which cannot be quickly understood
+
+							```c#
+							// Get Complex Results
+							// Then Check Them For 'X'
+							// Get Only 'Y' From Results
+							// Convert 'Y' Into Usable Form
+							GetComplicateResultSet()
+								.PerformAnotherCheck()
+								.PerformFiltering()
+								.DoMoreStuff();
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do split method chaining over several lines
+
+							```c#
+							GetComplicateResultSet()
+								.PerformAnotherCheck()
+								.PerformFiltering(item =>
+									item.DoItemStuff())
+								.DoMoreStuff();
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do separate single line comment start characters ('//') with a space before the comment
+
+							```c#
+							// This is a comment
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do place multiple line comment characters ('/*', '*/') on their own lines with text indented
+
+							```c#
+							/*
+								This is a comment
+							*/
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do declare type when creating variables
+
+							```c#
+							string result = GetResult();
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use predefined type primitives
+
+							```c#
+							// Correct
+							string result;
+							int count;
+							string countString = string.Join(", ", names);
+							int index = int.Parse(input);
+
+							// Not Correct
+							String result;
+							Int32 count;
+							string countString = String.Join(", ", names);
+							int index = Int32.Parse(input);
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do contain only one (1) class per file
+
+							```c#
+							class Person
+							{
+								private class NestedClass
+								{
+									// ...
+								}
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do maybe Specify enumeration values
+
+							```c#
+							// Correct
+							public enum Direction
+							{
+								North,
+								East,
+								South,
+								West
+							}
+
+							// Acceptable, But Not Recommended
+							public enum Direction
+							{
+								North = 1,
+								East = 2,
+								South = 3,
+								West = 5
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do suffix exception class names with the 'Exception' identifier
+
+							```c#
+							using System;
+
+							public class BarcodeReadException : Exception { /* ... */ }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use tabs to indent lines
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do provide a single, empty line between each statement and group of statements
+
+							```c#
+							// Correct
+							string fullName = customer.FirstName + customer.LastName;
+
+							IEnumerable<Order> orders = GetOrders(fullName);
+
+							ProcessOrders(orders);
+
+							// Correct
+							string firstName = customer.FirstName;
+							string lastName = customer.LastName;
+
+							IEnumerable<Order> orders = GetOrders(firstName + lastName);
+
+							ProcessOrders(orders);
+
+							// Not Correct
+							string firstName = customer.FirstName;
+							string lastName = customer.LastName;
+							string fullName = customer.FirstName + customer.LastName;
+							IEnumerable<Order> orders = GetOrders(fullName);
+							ProcessOrders(orders);
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do separate methods with a single blank line
+
+							```c#
+							public void MyMethod()
+							{
+
+							}
+
+							public void MyOtherMethod()
+							{
+
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do use each class and method for only a single responsibility
+						</script>
+					</section>
+				</section>
+
+				<section data-background="#9e3d3d">
+					<section>
+						<h3>Do Not's</h3>
+						<p>Just.. Don't... Do It</p>
+						<img src="http://giphygifs.s3.amazonaws.com/media/RddAJiGxTPQFa/giphy.gif" />
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use All Upper Case For Identifiers, even constants or readonly
+
+							```c#
+							// Correct
+							public readonly double GravitationalConstant;
+
+							// Not Correct
+							public readonly double GRAVITATIONALCONSTANT;
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use Hungarian notation
+
+							```c#
+							// Correct
+							string name = "";
+							int counter = 0;
+
+							// Not Correct
+							string strName = "";
+							int iCounter = 0;
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use underscores when defining a name
+
+							```c#
+							// Not Correct
+							string _myString = "";
+							string my_other_string = "";
+							```
+
+							Exception: When using a class member field as a backing value for a property, using the same name as the property prefixed with an underscore ('_') helps identify the one instance where the same name is desired.
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use C# keywords as identifiers
+
+							```c#
+							// Correct
+							string firstName = "";
+
+							// Not Correct
+							string @string = "";
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use abbreviations or contractions when naming
+
+							```c#
+							// Correct
+							public class Window
+							public Window Window { get; }
+
+							// Not Correct
+							public class UserGrp
+							public UserGroup UserGrp { get; }
+							```
+
+							Exception: When the abbreviation is commonly used and well known -- primarily only 'Id'.
+							```c#
+							public int RecordId { get; }
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not suffix an enumeration with the 'Enum' or 'Enumeration' identifier
+
+							```c#
+							// Correct
+							public enum Item
+							{
+								One,
+								Two
+							}
+
+							// Not Correct
+							public enum ItemEnum
+							{
+								One,
+								Two
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not suffix a flag enumeration with the 'Flag' or 'Flags' identifier
+
+							```c#
+							using System;
+
+							// Correct
+							[Flags]
+							public enum ColorHues
+							{
+								None = 0,
+								Black = 1,
+								Red = 2,
+								Green = 4,
+								Blue = 8
+							}
+
+							// Not Correct
+							[Flags]
+							public enum ColorHueFlags
+							{
+								None = 0,
+								Black = 1,
+								Red = 2,
+								Green = 4,
+								Blue = 8
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use the 'var' keyword
+
+							```c#
+							var result = GetResult();
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not create static classes
+
+							```c#
+							static class CoolClass
+							{
+								// Member methods, variables, etc...
+							}
+							
+							```
+
+							```c#
+							class Singleton
+							{
+								private static Singleton _Instance;
+
+								protected Singleton()
+								{
+									// ...
+								}
+
+								public static CityBO Instance
+								{
+									get
+									{
+										if (_Instance == null)
+										{
+											_Instance = new Singleton();
+										}
+
+										return _Instance;
+									}
+								}
+								// ...
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use class properties or fields when a scoped variable will suffice
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not specify the numeric type of enumerations
+
+							```c#
+							// Correct
+							public enum Direction
+							{
+								North,
+								East,
+								South,
+								West
+							}
+
+							// Not Correct
+							public enum Direction : long
+							{
+								North,
+								East,
+								South,
+								West
+							}
+
+							// Not Correct
+							public enum Direction : long
+							{
+								North = 1,
+								East = 2,
+								South = 3,
+								West = 5
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							Do not use jump statement: continue, goto
+
+							Reasoning: These jump statements interrupt the natural flow of an application. The use of 'goto' is considered bad industry practice, and should be completely avoided. The use of 'continue' interrupt the natural cycle of a loop doing what should have been accomplished by regular flow statements. It is much more difficult to keep 'continue' straight than it is to use normal flow control that is used everywhere else in the application.
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<h3>Questions?</h3>
+				</section>
+
+				<section>
+					<h3>That's a Wrap!</h3>
+					<br />
+					<a href="https://cyearsley.github.io/rest-api-standards-presentation/">Back Home</a>
+				</section>
 			</div>
 		</div>
 
