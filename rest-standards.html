@@ -106,6 +106,9 @@
 							If a method is identified as idempotent, it can be expected to be so. If a method is not identified as 
 							idempotent it cannot be expected to be so, however, nothing is preventing it from actually being idempotent.
 						</p>
+						<p>
+							The same can be said for safe methods.
+						</p>
 					</section>
 				</section>
 				<section data-background="#9e3d3d">
@@ -210,7 +213,10 @@
 						<img src="http://giphygifs.s3.amazonaws.com/media/koUtwnvA3TY7C/giphy.gif" />
 					</section>
 					<section>
-						Do not use idempotent (e.g. GET, PUT, DELETE) methods where the effect on the server is inconsistent with other such requests (non-idempotent)
+						Do not use idempotent (e.g. GET, PUT, DELETE) methods where the effect is non-idempotent
+					</section>
+					<section>
+						Do not use safe (e.g. GET) methods where the effect is not safe
 					</section>
 					<section>
 						Do not use <code>PascalCase</code> or <code>snake_case</code> in URI paths
